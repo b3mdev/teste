@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Create Post - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2>Create New Post</h2>
+    {# Flash messages are in base.html #}
+
+    <form method="POST" action="{{ url_for('posts.create_post') }}">
+        {# Add CSRF token here if you use Flask-WTF/CSRFProtect, e.g., form.hidden_tag() #}
+        <p>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content" rows="5" cols="40" required>{{ request.form.content if request.form.content else (content if content else '') }}</textarea>
+        </p>
+        <p>
+            <label for="social_account_id">Post to Account (Optional):</label><br>
+            <select id="social_account_id" name="social_account_id">
+                <option value="">-- Select Account (General Post) --</option>
+                {% for acc in social_accounts %}
+                <option value="{{ acc.id }}" {% if request.form.social_account_id == acc.id|string %}selected{% endif %}>
+                    {{ acc.platform.capitalize() }} - {{ acc.account_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label for="status">Status:</label><br>
+            <select id="status" name="status">
+                <option value="draft" {% if request.form.status == 'draft' or (status == 'draft' and not request.form.status) %}selected{% endif %}>Draft</option>
+                <option value="scheduled" {% if request.form.status == 'scheduled' or (status == 'scheduled' and not request.form.status) %}selected{% endif %}>Scheduled</option>
+            </select>
+        </p>
+        <p>
+            <label for="scheduled_at">Schedule at (if status is 'Scheduled', YYYY-MM-DDTHH:MM):</label><br>
+            <input type="datetime-local" id="scheduled_at" name="scheduled_at" value="{{ request.form.scheduled_at if request.form.scheduled_at else (scheduled_at_value if scheduled_at_value else '') }}">
+        </p>
+        <p>
+            <button type="submit">Create Post</button>
+        </p>
+    </form>
+
+    <hr>
+    <div>
+        <h3>AI Suggestions</h3>
+        <button type="button" id="getSuggestionsBtn">Get General Suggestions</button>
+        <button type="button" id="getHashtagSuggestionsBtn">Suggest Hashtags</button>
+        <button type="button" id="getRewriteSuggestionBtn">Suggest Rewrite (uses content above)</button>
+        <div id="suggestionsArea" style="margin-top: 10px; border: 1px solid #eee; padding: 10px; min-height: 50px; background-color: #f9f9f9; border-radius: 4px;">
+            Suggestions will appear here.
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contentTextArea = document.getElementById('content');
+    const suggestionsArea = document.getElementById('suggestionsArea');
+
+    async function fetchSuggestions(suggestionType) {
+        const postContent = contentTextArea.value;
+        suggestionsArea.innerHTML = 'Loading suggestions...';
+        try {
+            const response = await fetch("{{ url_for('posts.get_ai_suggestions_route') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include CSRF token header if your app uses Flask-WTF CSRFProtect globally
+                    // 'X-CSRFToken': '{{ csrf_token() }}' // Example if CSRF is handled this way
+                },
+                body: JSON.stringify({ content: postContent, type: suggestionType })
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.suggestions && data.suggestions.length > 0) {
+                let html = '<ul>';
+                data.suggestions.forEach(sugg => {
+                    html += `<li><strong>${sugg.type.replace('_', ' ').toUpperCase()}:</strong> ${sugg.content}</li>`;
+                });
+                html += '</ul>';
+                suggestionsArea.innerHTML = html;
+            } else {
+                suggestionsArea.innerHTML = 'No suggestions available for this content/type.';
+            }
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+            suggestionsArea.innerHTML = 'Failed to load suggestions. See console for details.';
+        }
+    }
+
+    document.getElementById('getSuggestionsBtn').addEventListener('click', function() {
+        fetchSuggestions('general');
+    });
+    document.getElementById('getHashtagSuggestionsBtn').addEventListener('click', function() {
+        fetchSuggestions('hashtag');
+    });
+    document.getElementById('getRewriteSuggestionBtn').addEventListener('click', function() {
+        if (!contentTextArea.value.trim()) {
+            suggestionsArea.innerHTML = 'Please enter some content in the textarea to get a rewrite suggestion.';
+            return;
+        }
+        fetchSuggestions('rewrite');
+    });
+});
+</script>
+{% endblock %}

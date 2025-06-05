@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Login - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2>Login</h2>
+    {# Flash messages are now in base.html, so they will appear above this form if any #}
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        {{ form.hidden_tag() if form and form.hidden_tag }} {# For Flask-WTF CSRF token #}
+        <p>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" required value="{{ request.form.email if request.form.email else '' }}">
+        </p>
+        <p>
+            <label for="password">Password</label><br>
+            <input type="password" id="password" name="password" required>
+        </p>
+        <p>
+            {# Example for a remember me checkbox if using Flask-WTF #}
+            {# {% if form and form.remember %}
+              {{ form.remember.label }} {{ form.remember }}
+            {% else %} #}
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">Remember me</label>
+            {# {% endif %} #}
+        </p>
+        <p>
+            <button type="submit">Login</button>
+        </p>
+    </form>
+    <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a></p>
+{% endblock %}

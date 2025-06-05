@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Add {{ platform.capitalize() }} Account - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2>Add {{ platform.capitalize() }} Account</h2>
+    {# Flash messages are in base.html #}
+
+    <p>You are about to add a {{ platform.capitalize() }} account.</p>
+
+    <form method="POST" action="{{ url_for('social_accounts.add_account', platform=platform) }}">
+        {# Add CSRF token here if you use Flask-WTF #}
+        <p>
+            <label for="account_name">Account Name (e.g., your username or page name):</label><br>
+            <input type="text" id="account_name" name="account_name" required value="{{ request.form.account_name if request.form.account_name else '' }}">
+        </p>
+        <p>
+            <label for="access_token">Access Token (dummy for now):</label><br>
+            <input type="text" id="access_token" name="access_token" value="dummy_token_for_{{ platform }}" required>
+        </p>
+        {% if platform == 'twitter' %}
+        <p>
+            <label for="access_token_secret">Access Token Secret (dummy for now):</label><br>
+            <input type="text" id="access_token_secret" name="access_token_secret" value="{{ request.form.access_token_secret if request.form.access_token_secret else 'dummy_secret_for_' ~ platform }}">
+        </p>
+        {% endif %}
+        <p>
+            <button type="submit">Add {{ platform.capitalize() }} Account</button>
+        </p>
+    </form>
+    <p><a href="{{ url_for('social_accounts.view_accounts') }}">Back to Accounts</a></p>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Welcome to the Social Media Scheduler!</h1>
+    {% if current_user.is_authenticated %}
+        <p>Hello, {{ current_user.username }}! Ready to manage your social media presence?</p>
+        <p>
+            <a href="{{ url_for('posts.create_post') }}" class="button-link">Create a New Post</a>
+            <a href="{{ url_for('posts.view_all_posts') }}" class="button-link">View Your Posts</a>
+        </p>
+    {% else %}
+        <p>Your ultimate tool for planning and automating your social media posts.</p>
+        <p>Please <a href="{{ url_for('auth.login') }}">login</a> or <a href="{{ url_for('auth.register') }}">register</a> to get started.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 30px;">
+    <h2>Features:</h2>
+    <ul>
+        <li>Schedule posts across multiple platforms (concept).</li>
+        <li>Manage multiple social media accounts.</li>
+        <li>Get AI-powered suggestions for your content (dummy).</li>
+        <li>Track basic analytics for your posts (dummy).</li>
+    </ul>
+</div>
+{% endblock %}

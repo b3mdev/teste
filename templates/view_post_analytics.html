@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics for Post ID: {{ post.id }} - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2>Analytics for Post: "{{ post.content|truncate(50) }}" (ID: {{ post.id }})</h2>
+    {# Flash messages are in base.html #}
+
+    {% if analytics %}
+        <div class="analytics-data" style="background: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+            <p><strong>Likes:</strong> {{ analytics.likes }}</p>
+            <p><strong>Comments:</strong> {{ analytics.comments }}</p>
+            <p><strong>Shares:</strong> {{ analytics.shares }}</p>
+            {% if post.social_account_id %}
+            <p><strong>Reach:</strong> {{ analytics.reach }}</p>
+            {% else %}
+            <p><strong>Reach:</strong> N/A (Post not tied to a specific social account)</p>
+            {% endif %}
+            <p><strong>Last Updated:</strong> {{ analytics.last_updated.strftime('%Y-%m-%d %H:%M:%S') }} UTC</p>
+        </div>
+    {% else %}
+        <p>No analytics data available for this post yet.</p>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('posts.view_post_analytics', post_id=post.id) }}" style="margin-top: 20px;">
+        {# Add CSRF token here if you use Flask-WTF/CSRFProtect #}
+        <button type="submit">Refresh/Generate Dummy Analytics</button>
+    </form>
+{% endblock %}

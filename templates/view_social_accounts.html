@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Your Social Accounts - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2>Your Social Accounts</h2>
+    {# Flash messages are in base.html #}
+
+    {% if accounts %}
+        <ul style="list-style: none; padding: 0;">
+            {% for account in accounts %}
+                <li style="background: #fff; padding: 10px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+                    <strong>{{ account.platform.capitalize() }}</strong>: {{ account.account_name or 'N/A' }}
+                    <form method="POST" action="{{ url_for('social_accounts.remove_account', account_id=account.id) }}" style="display:inline; margin-left: 10px;">
+                        {# Add CSRF token here if you use Flask-WTF #}
+                        <button type="submit" onclick="return confirm('Are you sure you want to remove this account?');" style="background: #dc3545; font-size: 0.9rem; padding: 5px 10px;">Remove</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not added any social media accounts yet.</p>
+    {% endif %}
+
+    <h3 class="mt-2">Add new accounts:</h3>
+    <p>
+        <a href="{{ url_for('social_accounts.add_account', platform='twitter') }}" class="button-link" style="margin-right: 5px;">Add Twitter</a>
+        <a href="{{ url_for('social_accounts.add_account', platform='facebook') }}" class="button-link" style="margin-right: 5px;">Add Facebook</a>
+        <a href="{{ url_for('social_accounts.add_account', platform='linkedin') }}" class="button-link">Add LinkedIn</a>
+        <!-- Add more platforms as needed -->
+    </p>
+{% endblock %}
