@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Loteamento Interativo{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/map_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Mapa Interativo do Loteamento</h1>
+    <div class="row">
+        <div class="col-md-9">
+            <div id="map_canvas" style="width: 100%; height: 600px; border: 1px solid #ccc;">
+                <!-- Google Map will be loaded here -->
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="controls-panel">
+                <h2>Controles</h2>
+                <div class="form-group">
+                    <label for="image_upload">Carregar Planta Baixa (.jpg, .svg):</label>
+                    <input type="file" class="form-control-file" id="image_upload" accept=".jpg,.jpeg,.svg">
+                </div>
+                <hr>
+                <div id="image_adjust_controls" style="display: none;">
+                    <h4>Ajustes da Imagem Sobreposta</h4>
+                    <div class="form-group">
+                        <label for="overlay_opacity">Opacidade da Imagem (%):</label>
+                        <input type="range" class="form-control-range" id="overlay_opacity" min="0" max="100" value="75">
+                    </div>
+                    <p>Coordenadas da Imagem (LatLngBounds):</p>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="sw_lat">SW Lat:</label>
+                            <input type="number" step="any" class="form-control form-control-sm" id="sw_lat" placeholder="Ex: -14.236">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="sw_lng">SW Lng:</label>
+                            <input type="number" step="any" class="form-control form-control-sm" id="sw_lng" placeholder="Ex: -51.926">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ne_lat">NE Lat:</label>
+                            <input type="number" step="any" class="form-control form-control-sm" id="ne_lat" placeholder="Ex: -14.234">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ne_lng">NE Lng:</label>
+                            <input type="number" step="any" class="form-control form-control-sm" id="ne_lng" placeholder="Ex: -51.924">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="update_bounds_button">Atualizar Posição/Escala</button>
+                    <button class="btn btn-danger btn-sm" id="remove_image_button" style="display: none;">Remover Imagem</button>
+                </div>
+                <p id="no_image_message"><i>Nenhuma imagem carregada. Controles de ajuste aparecerão aqui após carregar uma imagem.</i></p>
+                <hr>
+                <h4>Filtros e Busca</h4>
+                <div class="form-group">
+                    <label for="status_filter">Filtrar por Status:</label>
+                    <select class="form-control" id="status_filter">
+                        <option value="all">Todos</option>
+                        <option value="disponivel">Disponível</option>
+                        <option value="reservado">Reservado</option>
+                        <option value="vendido">Vendido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lot_search">Buscar por Número do Lote:</label>
+                    <input type="text" class="form-control" id="lot_search" placeholder="Ex: 101">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div id="info_panel" class="info-panel" style="display: none; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                <h3>Detalhes do Lote</h3>
+                <p id="lot_details">Clique em um lote no mapa para ver os detalhes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<!--
+    ********************************************************************************************************
+    IMPORTANT: You MUST replace 'YOUR_API_KEY' below with your actual Google Maps JavaScript API key.
+    The map will not load without it.
+    Enable "Maps JavaScript API" in your Google Cloud Console project.
+    ********************************************************************************************************
+-->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=drawing,geometry" async defer></script>
+<script src="{{ url_for('static', filename='js/map_logic.js') }}"></script>
+{% endblock %}
