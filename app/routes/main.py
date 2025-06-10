@@ -8,3 +8,7 @@ main_bp = Blueprint('main', __name__)
 def index():
     # You can pass data to your template if needed, e.g., featured posts, user stats, etc.
     return render_template('index.html', title='Welcome')
+
+@main_bp.route('/mapview')
+def map_view():
+    return render_template('map_view.html', title='Mapa Interativo')
