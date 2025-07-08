@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Kart - Página 5</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Reserva de Kart</h1>
+    </header>
+    <main>
+        <div class="progress-indicator">
+            <div class="progress-step completed">1. Categoria/Tempo</div>
+            <div class="progress-step completed">2. Data/Horário</div>
+            <div class="progress-step completed">3. Pilotos</div>
+            <div class="progress-step completed">4. Pagamento</div>
+            <div class="progress-step active">5. Confirmação</div>
+        </div>
+        <section id="pagina05">
+            <h2>Página 5: Reserva Confirmada!</h2>
+            <div id="resumoReserva">
+                <p><strong>Obrigado pela sua reserva!</strong></p>
+                <p>Um e-mail de confirmação com os detalhes abaixo e instruções adicionais foi enviado para <strong id="emailConfirmacao"></strong>.</p>
+
+                <h3>Detalhes da Reserva:</h3>
+                <ul id="listaDetalhesReserva">
+                    <!-- Detalhes serão preenchidos pelo JavaScript -->
+                </ul>
+
+                <h3>Pilotos:</h3>
+                <div id="listaPilotosConfirmacao">
+                    <!-- Lista de pilotos será preenchida pelo JavaScript -->
+                </div>
+
+                <h3>Instruções para o Dia da Corrida:</h3>
+                <ul>
+                    <li>Chegue com pelo menos <strong>1 hora de antecedência</strong> ao horário agendado.</li>
+                    <li>Apresente este comprovante (pode ser digital) e um documento de identificação com foto na recepção.</li>
+                    <li>Use roupas confortáveis e calçados fechados. Não é permitido correr de chinelos, sandálias ou saltos.</li>
+                    <li>Capacetes e balaclavas (higienizadas) são fornecidos no local. Se preferir, pode trazer o seu próprio capacete (fechado e com viseira).</li>
+                    <li>Siga todas as instruções de segurança fornecidas pelos nossos instrutores.</li>
+                    <li>Divirta-se!</li>
+                </ul>
+
+                <p>Em caso de dúvidas ou necessidade de reagendamento, entre em contato conosco com antecedência.</p>
+            </div>
+            <br>
+            <button type="button" class="button" onclick="window.location.href='../index.html'">Fazer Nova Reserva</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Reserva de Kart</p>
+    </footer>
+    <script src="../js/scriptP05.js"></script>
+</body>
+</html>

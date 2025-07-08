@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Kart - Página 2</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <header>
+        <h1>Reserva de Kart</h1>
+    </header>
+    <main>
+        <div class="progress-indicator">
+            <div class="progress-step completed">1. Categoria/Tempo</div>
+            <div class="progress-step active">2. Data/Horário</div>
+            <div class="progress-step">3. Pilotos</div>
+            <div class="progress-step">4. Pagamento</div>
+            <div class="progress-step">5. Confirmação</div>
+        </div>
+        <section id="pagina02">
+            <h2>Página 2: Escolha da Data e Horário</h2>
+            <form id="formPagina02">
+                <fieldset>
+                    <legend>Selecione a Data:</legend>
+                    <input type="text" id="calendario" placeholder="Escolha uma data" required>
+                </fieldset>
+
+                <fieldset id="selecaoHorario" style="display: none;">
+                    <legend>Escolha o Horário:</legend>
+                    <div id="opcoesHorario">
+                        <!-- Opções de horário serão carregadas aqui -->
+                    </div>
+                </fieldset>
+                <br>
+                <button type="button" onclick="window.location.href='../index.html'">Anterior</button>
+                <button type="submit" id="btnProximaPagina02" disabled>Próximo</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Reserva de Kart</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="../js/scriptP02.js"></script>
+</body>
+</html>

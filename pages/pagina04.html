@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Kart - Página 4</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Reserva de Kart</h1>
+    </header>
+    <main>
+        <div class="progress-indicator">
+            <div class="progress-step completed">1. Categoria/Tempo</div>
+            <div class="progress-step completed">2. Data/Horário</div>
+            <div class="progress-step completed">3. Pilotos</div>
+            <div class="progress-step active">4. Pagamento</div>
+            <div class="progress-step">5. Confirmação</div>
+        </div>
+        <section id="pagina04">
+            <h2>Página 4: Pagamento</h2>
+            <form id="formPagina04">
+                <fieldset>
+                    <legend>Escolha a Forma de Pagamento:</legend>
+                    <div>
+                        <input type="radio" id="cartao" name="formaPagamento" value="cartao" required>
+                        <label for="cartao">Cartão de Crédito</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="pix" name="formaPagamento" value="pix">
+                        <label for="pix">PIX</label>
+                    </div>
+                </fieldset>
+
+                <div id="dadosCartao" style="display: none;">
+                    <fieldset>
+                        <legend>Dados do Cartão de Crédito</legend>
+                        <div>
+                            <label for="numeroCartao">Número do Cartão:</label>
+                            <input type="text" id="numeroCartao" name="numeroCartao" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div>
+                            <label for="nomeCartao">Nome no Cartão:</label>
+                            <input type="text" id="nomeCartao" name="nomeCartao" placeholder="Como aparece no cartão">
+                        </div>
+                        <div>
+                            <label for="validadeCartao">Validade (MM/AA):</label>
+                            <input type="text" id="validadeCartao" name="validadeCartao" placeholder="MM/AA">
+                        </div>
+                        <div>
+                            <label for="cvvCartao">CVV:</label>
+                            <input type="text" id="cvvCartao" name="cvvCartao" placeholder="123">
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="dadosPix" style="display: none;">
+                    <fieldset>
+                        <legend>Pagamento com PIX</legend>
+                        <p>Escaneie o QR Code abaixo ou copie o código para pagar:</p>
+                        <div id="pixQRCodePlaceholder" style="width: 200px; height: 200px; background-color: #e0e0e0; border: 1px solid #ccc; margin: 10px auto; display: flex; align-items: center; justify-content: center;">
+                            [Simulação QR Code PIX]
+                        </div>
+                        <label for="pixCodigo">Código PIX (copia e cola):</label>
+                        <input type="text" id="pixCodigo" name="pixCodigo" value="simulacao_codigo_pix_123456789abcdefghi" readonly>
+                        <button type="button" id="btnCopiarPix">Copiar Código</button>
+                        <p style="margin-top:10px;"><strong>Aguardando confirmação do pagamento...</strong> (Simulado)</p>
+                    </fieldset>
+                </div>
+                <br>
+                <button type="button" onclick="window.location.href='pagina03.html'">Anterior</button>
+                <button type="submit" id="btnFinalizarPagamento">Finalizar Pagamento</button>
+            </form>
+            <div id="mensagemPagamento" style="margin-top: 20px;"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Reserva de Kart</p>
+    </footer>
+    <script src="../js/scriptP04.js"></script>
+</body>
+</html>
