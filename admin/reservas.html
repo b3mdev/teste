@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Reservas - Admin Kart</title>
+    <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Kart</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="reservas.html" class="active">Reservas</a></li>
+                    <li><a href="pilotos.html">Pilotos</a></li>
+                    <li><a href="#" id="logoutBtn">Sair</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="content">
+            <header>
+                <h1>Gerenciar Reservas</h1>
+            </header>
+            <section class="filters">
+                <label for="filtroStatus">Status:</label>
+                <select id="filtroStatus">
+                    <option value="">Todos</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Cancelada">Cancelada</option>
+                    <option value="Realizada">Realizada</option>
+                </select>
+                <label for="filtroData">Data:</label>
+                <input type="date" id="filtroData">
+                <button id="btnAplicarFiltrosReservas">Aplicar Filtros</button>
+            </section>
+            <section class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Categoria</th>
+                            <th>Piloto Principal</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaReservasBody">
+                        <!-- Linhas da tabela serão inseridas aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Detalhes da Reserva -->
+    <div id="modalDetalhesReserva" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('modalDetalhesReserva').style.display='none'">&times;</span>
+            <h2>Detalhes da Reserva</h2>
+            <div id="conteudoModalReserva">
+                <!-- Conteúdo do modal será preenchido pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/mock_data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/reservas_admin.js"></script>
+</body>
+</html>

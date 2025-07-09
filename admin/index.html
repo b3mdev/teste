@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Reserva de Kart</title>
+    <link rel="stylesheet" href="css/admin_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Kart</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Dashboard</a></li>
+                    <li><a href="reservas.html">Reservas</a></li>
+                    <li><a href="pilotos.html">Pilotos</a></li>
+                    <li><a href="#" id="logoutBtn">Sair</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="content">
+            <header>
+                <h1>Visão Geral</h1>
+            </header>
+            <section class="stats-cards">
+                <div class="card">
+                    <h3>Total de Reservas</h3>
+                    <p id="totalReservas">0</p>
+                </div>
+                <div class="card">
+                    <h3>Reservas Pendentes</h3>
+                    <p id="reservasPendentes">0</p>
+                </div>
+                <div class="card">
+                    <h3>Total de Pilotos</h3>
+                    <p id="totalPilotos">0</p>
+                </div>
+            </section>
+            <section class="charts">
+                <div class="chart-container">
+                    <h3>Reservas por Categoria</h3>
+                    <canvas id="reservasPorCategoriaChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Reservas nos Próximos 7 Dias</h3>
+                    <canvas id="reservasProximos7DiasChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Taxa de Ocupação por Horário (Hoje)</h3>
+                    <canvas id="ocupacaoHorarioChart"></canvas>
+                </div>
+                 <div class="chart-container">
+                    <h3>Novos Pilotos por Mês</h3>
+                    <canvas id="novosPilotosMesChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/mock_data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard_main.js"></script>
+</body>
+</html>

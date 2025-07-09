@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Pilotos - Admin Kart</title>
+    <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Kart</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="reservas.html">Reservas</a></li>
+                    <li><a href="pilotos.html" class="active">Pilotos</a></li>
+                    <li><a href="#" id="logoutBtn">Sair</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="content">
+            <header>
+                <h1>Gerenciar Pilotos</h1>
+            </header>
+            <section class="filters">
+                <label for="buscaPiloto">Buscar por Nome ou CPF:</label>
+                <input type="text" id="buscaPiloto" placeholder="Digite nome ou CPF">
+                <button id="btnBuscarPiloto">Buscar</button>
+            </section>
+            <section class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>CPF</th>
+                            <th>Nº de Corridas</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaPilotosBody">
+                        <!-- Linhas da tabela serão inseridas aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Detalhes do Piloto -->
+    <div id="modalDetalhesPiloto" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('modalDetalhesPiloto').style.display='none'">&times;</span>
+            <h2>Detalhes do Piloto</h2>
+            <div id="conteudoModalPiloto">
+                <!-- Conteúdo do modal será preenchido pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/mock_data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pilotos_admin.js"></script>
+</body>
+</html>
