@@ -1,0 +1,317 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 0; /* Removido padding para que o progress-indicator possa ficar fora do shadow */
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #transparent; /* Main fica transparente */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */ /* Shadow movido para a section */
+}
+
+section {
+    padding: 1em; /* Padding movido para section */
+    background-color: #fff; /* Fundo branco movido para section */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow aplicado na section */
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    background-color: #333;
+    color: #fff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Estilos para formulários */
+form {
+    margin-top: 20px;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+legend {
+    padding: 0 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"],
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover,
+.button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Estilos específicos para a página 01 */
+#opcoesTempo div,
+#formPagina01 fieldset div {
+    margin-bottom: 10px;
+}
+
+#opcoesTempo label,
+#formPagina01 fieldset label,
+#opcoesHorario label { /* Adicionado #opcoesHorario label */
+    display: inline-block; /* Para alinhar rádio/checkbox com o texto */
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+/* Estilos específicos para a página 02 - Opções de Horário */
+#opcoesHorario div {
+    margin-bottom: 8px; /* Espaçamento entre as opções de horário */
+}
+
+#calendario {
+    background-color: #fff; /* Garante que o fundo do input do calendário seja branco */
+}
+
+/* Estilos para a seção de Pilotos Adicionais (Página 03) */
+#pilotosAdicionais {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#pilotosAdicionais h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.piloto-adicional-item {
+    padding: 10px;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 15px;
+}
+
+.piloto-adicional-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.piloto-adicional-item h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.piloto-adicional-item label {
+    font-weight: normal;
+}
+
+.piloto-adicional-item input[type="text"],
+.piloto-adicional-item input[type="email"],
+.piloto-adicional-item select {
+    width: calc(100% - 22px); /* Ajuste para padding e border */
+    margin-bottom: 8px;
+}
+
+.btnRemoverPiloto {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.btnRemoverPiloto:hover {
+    background-color: #c82333;
+}
+
+#btnAdicionarPiloto {
+    background-color: #28a745;
+    margin-top: 10px;
+}
+#btnAdicionarPiloto:hover {
+    background-color: #218838;
+}
+
+/* Estilos para a Página 04 - Pagamento */
+#dadosCartao fieldset, #dadosPix fieldset {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+}
+
+#pixQRCodePlaceholder {
+    width: 180px; /* Reduzido para melhor encaixe */
+    height: 180px; /* Reduzido para melhor encaixe */
+    font-size: 0.9em;
+    color: #666;
+}
+
+#pixCodigo {
+    width: calc(100% - 125px); /* Ajustar largura para caber botão ao lado */
+    margin-right: 10px;
+    background-color: #eee;
+    font-family: monospace;
+}
+
+#btnCopiarPix {
+    padding: 10px 10px; /* Mesmo padding vertical do input */
+    font-size: 14px;
+    background-color: #6c757d;
+}
+#btnCopiarPix:hover {
+    background-color: #5a6268;
+}
+
+#mensagemPagamento {
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Estilos para a Página 05 - Confirmação */
+#resumoReserva {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+}
+
+#resumoReserva h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #007bff;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+#resumoReserva ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#resumoReserva ul li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+#listaPilotosConfirmacao p {
+    margin-bottom: 5px;
+}
+
+#listaPilotosConfirmacao .piloto-confirmacao-item {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid #007bff;
+}
+
+#pagina05 .button {
+    display: block;
+    width: fit-content;
+    margin: 20px auto 0 auto; /* Centralizar botão */
+}
+
+/* Indicador de Progresso */
+.progress-indicator {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    background-color: #e9ecef;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.progress-step {
+    padding: 8px 15px;
+    color: #495057;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    font-size: 0.9em;
+}
+
+.progress-step.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.progress-step.completed {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}

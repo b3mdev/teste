@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Kart - Página 1</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Reserva de Kart</h1>
+    </header>
+    <main>
+        <div class="progress-indicator">
+            <div class="progress-step active">1. Categoria/Tempo</div>
+            <div class="progress-step">2. Data/Horário</div>
+            <div class="progress-step">3. Pilotos</div>
+            <div class="progress-step">4. Pagamento</div>
+            <div class="progress-step">5. Confirmação</div>
+        </div>
+        <section id="pagina01">
+            <h2>Página 1: Seleção da Categoria e Tempo</h2>
+            <form id="formPagina01">
+                <fieldset>
+                    <legend>Escolha a Categoria:</legend>
+                    <div>
+                        <input type="radio" id="cadetinho" name="categoria" value="CADETINHO (5,5HP HONDA)" data-tempos="15min,20min,25min,30min" required>
+                        <label for="cadetinho">A. CADETINHO (5,5HP HONDA)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="standart" name="categoria" value="STANDART 6.5 HP Honda" data-tempos="15min,20min,25min,30min">
+                        <label for="standart">B. STANDART 6.5 HP Honda</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="preparado" name="categoria" value="PREPARADO 8.5 HP Honda" data-tempos="15min,20min,25min,30min">
+                        <label for="preparado">C. PREPARADO 8.5 HP Honda</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="13hp" name="categoria" value="13HP HONDA Performance Elevada" data-tempos="15min,20min,25min,30min">
+                        <label for="13hp">D. 13HP HONDA Performance Elevada</label>
+                    </div>
+                </fieldset>
+
+                <fieldset id="selecaoTempo" style="display: none;">
+                    <legend>Escolha o Tempo de Pista:</legend>
+                    <div id="opcoesTempo">
+                        <!-- Opções de tempo serão carregadas aqui pelo JavaScript -->
+                    </div>
+                </fieldset>
+                <br>
+                <button type="submit" id="btnProximaPagina01" disabled>Próximo</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Reserva de Kart</p>
+    </footer>
+    <script src="js/scriptP01.js"></script>
+</body>
+</html>
