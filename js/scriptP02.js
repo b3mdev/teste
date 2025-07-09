@@ -14,8 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarioInput = document.getElementById('calendario');
     const selecaoHorarioFieldset = document.getElementById('selecaoHorario');
     const opcoesHorarioDiv = document.getElementById('opcoesHorario');
+    const calendarioInput = document.getElementById('calendario');
+    const selecaoHorarioDiv = document.getElementById('selecaoHorario'); // Mudou de fieldset para div
+    const opcoesHorarioDiv = document.getElementById('opcoesHorario');
     const btnProxima = document.getElementById('btnProximaPagina02');
-    const formPagina02 = document.getElementById('formPagina02');
+    const btnAnterior = document.getElementById('btnAnteriorPagina02');
+    // const formPagina02 = document.getElementById('formPagina02'); // Não há mais form
 
     let dataSelecionada = null;
     let horarioSelecionado = null;
@@ -36,17 +40,21 @@ document.addEventListener('DOMContentLoaded', function() {
     flatpickr(calendarioInput, {
         minDate: "today",
         dateFormat: "d/m/Y", // Formato brasileiro
-        // Adicione outras configurações se necessário (ex: disable, locale)
+        inline: false, // Para manter o estilo de input, pode ser true para mostrar direto na página
+        disableMobile: "true", // Para usar o calendário web em mobile
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length > 0) {
                 dataSelecionada = dateStr;
                 console.log("Data selecionada:", dataSelecionada);
                 carregarHorariosDisponiveis(selectedDates[0]);
-                selecaoHorarioFieldset.style.display = 'block';
-                btnProxima.disabled = true; // Desabilita até selecionar horário
-                horarioSelecionado = null; // Reseta horário
+                selecaoHorarioDiv.style.display = 'block';
+                selecaoHorarioDiv.style.opacity = '0';
+                setTimeout(() => { selecaoHorarioDiv.style.opacity = '1'; }, 50);
+
+                btnProxima.disabled = true;
+                horarioSelecionado = null;
             } else {
-                selecaoHorarioFieldset.style.display = 'none';
+                selecaoHorarioDiv.style.display = 'none';
                 opcoesHorarioDiv.innerHTML = '';
                 btnProxima.disabled = true;
                 dataSelecionada = null;
@@ -57,53 +65,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function carregarHorariosDisponiveis(data) {
         opcoesHorarioDiv.innerHTML = ''; // Limpa horários anteriores
-        // Lógica para determinar horários disponíveis
-        // Por agora, vamos simular alguns horários fixos de meia em meia hora
-        // Exemplo: das 09:00 às 18:00
         const horarios = [];
-        for (let hora = 9; hora <= 17; hora++) {
+        for (let hora = 9; hora <= 18; hora++) { // Ajustado para incluir 18:00 e 18:30
             horarios.push(`${String(hora).padStart(2, '0')}:00`);
-            horarios.push(`${String(hora).padStart(2, '0')}:30`);
+            if (hora < 18) { // Adiciona :30 até 17:30, para o último slot ser 18:00
+                 horarios.push(`${String(hora).padStart(2, '0')}:30`);
+            }
         }
-        // Adiciona o último horário das 18:00
-        horarios.push("18:00");
-
+        // horarios.push("18:00"); // Removido pois o loop já pode cuidar disso
 
         horarios.forEach(horario => {
-            // Lógica futura: verificar se o horário está realmente disponível
-            // consultando um backend ou uma lista de reservas.
-            // Por enquanto, todos são considerados disponíveis.
+            const horarioBtn = document.createElement('button');
+            horarioBtn.type = 'button';
+            horarioBtn.classList.add('horario-btn');
+            horarioBtn.textContent = horario;
+            horarioBtn.dataset.horario = horario;
 
-            const horarioId = `horario-${horario.replace(':', '')}`;
-            const inputRadioHorario = document.createElement('input');
-            inputRadioHorario.type = 'radio';
-            inputRadioHorario.id = horarioId;
-            inputRadioHorario.name = 'horarioEscolhido';
-            inputRadioHorario.value = horario;
-            inputRadioHorario.required = true;
+            // Simulação de alguns horários indisponíveis (ex: se for hoje e horário já passou)
+            // Ou poderia vir de uma lista de horários bloqueados
+            const agora = new Date();
+            const [h, m] = horario.split(':');
+            const dataHorario = new Date(data);
+            dataHorario.setHours(parseInt(h), parseInt(m), 0, 0);
 
-            const labelHorario = document.createElement('label');
-            labelHorario.htmlFor = horarioId;
-            labelHorario.textContent = horario;
-            // Estilo para melhor visualização dos radio buttons
-            labelHorario.style.marginLeft = "5px";
-            labelHorario.style.display = "inline-block";
+            if (dataHorario < agora && data.toDateString() === agora.toDateString()) {
+                horarioBtn.disabled = true;
+            }
+            // Simular aleatoriamente alguns horários ocupados para teste
+            // if (Math.random() < 0.2 && !horarioBtn.disabled) {
+            //     horarioBtn.disabled = true;
+            // }
 
+            opcoesHorarioDiv.appendChild(horarioBtn);
 
-            const divHorario = document.createElement('div');
-            divHorario.appendChild(inputRadioHorario);
-            divHorario.appendChild(labelHorario);
-            opcoesHorarioDiv.appendChild(divHorario);
-
-            inputRadioHorario.addEventListener('change', function() {
-                horarioSelecionado = this.value;
+            horarioBtn.addEventListener('click', function() {
+                if (this.disabled) return;
+                opcoesHorarioDiv.querySelectorAll('.horario-btn').forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+                horarioSelecionado = this.dataset.horario;
                 btnProxima.disabled = false;
             });
         });
     }
 
-    formPagina02.addEventListener('submit', function(event) {
-        event.preventDefault();
+    btnAnterior.addEventListener('click', function() {
+        window.location.href = '../index.html';
+    });
+
+    btnProxima.addEventListener('click', function() {
         if (dataSelecionada && horarioSelecionado) {
             saveData('reservaData', dataSelecionada);
             saveData('reservaHorario', horarioSelecionado);
@@ -114,4 +123,5 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Por favor, selecione uma data e um horário.');
         }
     });
+    // O form foi removido, então o listener de submit não é mais necessário
 });

@@ -26,63 +26,73 @@ document.addEventListener('DOMContentLoaded', function() {
     // Limpa dados de reservas anteriores ao carregar a primeira página
     clearAllReservationData();
 
-    const formPagina01 = document.getElementById('formPagina01');
-    const radiosCategoria = document.querySelectorAll('input[name="categoria"]');
-    const selecaoTempoFieldset = document.getElementById('selecaoTempo');
+    const categoriaButtons = document.querySelectorAll('.categoria-btn');
+    const selecaoTempoDiv = document.getElementById('selecaoTempo'); // Agora é uma div, não fieldset
     const opcoesTempoDiv = document.getElementById('opcoesTempo');
     const btnProxima = document.getElementById('btnProximaPagina01');
 
     let categoriaSelecionada = null;
+    let nomeCategoriaSelecionadaParaExibicao = null;
     let tempoSelecionado = null;
 
-    radiosCategoria.forEach(radio => {
-        radio.addEventListener('change', function() {
-            categoriaSelecionada = this.value;
+    categoriaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove a classe 'selected' de outros botões de categoria
+            categoriaButtons.forEach(btn => btn.classList.remove('selected'));
+            // Adiciona 'selected' ao botão clicado
+            this.classList.add('selected');
+
+            categoriaSelecionada = this.dataset.categoria; // Valor real para salvar
+            nomeCategoriaSelecionadaParaExibicao = this.querySelector('span').textContent; // Nome para exibição
+
             const temposDisponiveis = this.dataset.tempos.split(',');
 
             opcoesTempoDiv.innerHTML = ''; // Limpa opções anteriores
-            selecaoTempoFieldset.style.display = 'block';
-            btnProxima.disabled = true; // Desabilita o botão até que um tempo seja selecionado
-            tempoSelecionado = null; // Reseta o tempo selecionado
+            selecaoTempoDiv.style.display = 'block';
+            selecaoTempoDiv.style.opacity = '0'; // Para animação fade-in
+            setTimeout(() => { selecaoTempoDiv.style.opacity = '1'; }, 50);
+
+
+            btnProxima.disabled = true;
+            tempoSelecionado = null;
 
             temposDisponiveis.forEach(tempo => {
-                const tempoId = `tempo-${tempo.replace('min', '')}`;
-                const inputRadioTempo = document.createElement('input');
-                inputRadioTempo.type = 'radio';
-                inputRadioTempo.id = tempoId;
-                inputRadioTempo.name = 'tempoPista';
-                inputRadioTempo.value = tempo;
-                inputRadioTempo.required = true;
+                const tempoBtn = document.createElement('button');
+                tempoBtn.type = 'button'; // Evita submit de formulário se estivesse dentro de um
+                tempoBtn.classList.add('tempo-btn');
+                tempoBtn.textContent = tempo;
+                tempoBtn.dataset.tempo = tempo;
 
-                const labelTempo = document.createElement('label');
-                labelTempo.htmlFor = tempoId;
-                labelTempo.textContent = tempo;
+                opcoesTempoDiv.appendChild(tempoBtn);
 
-                const divTempo = document.createElement('div');
-                divTempo.appendChild(inputRadioTempo);
-                divTempo.appendChild(labelTempo);
-                opcoesTempoDiv.appendChild(divTempo);
+                tempoBtn.addEventListener('click', function() {
+                    // Remove a classe 'selected' de outros botões de tempo
+                    opcoesTempoDiv.querySelectorAll('.tempo-btn').forEach(btn => btn.classList.remove('selected'));
+                    // Adiciona 'selected' ao botão clicado
+                    this.classList.add('selected');
 
-                inputRadioTempo.addEventListener('change', function() {
-                    tempoSelecionado = this.value;
-                    btnProxima.disabled = false; // Habilita o botão de próximo
+                    tempoSelecionado = this.dataset.tempo;
+                    btnProxima.disabled = false;
                 });
             });
         });
     });
 
-    formPagina01.addEventListener('submit', function(event) {
-        event.preventDefault(); // Impede o envio padrão do formulário
-
+    btnProxima.addEventListener('click', function() {
         if (categoriaSelecionada && tempoSelecionado) {
-            saveData('reservaCategoria', categoriaSelecionada);
+            saveData('reservaCategoria', categoriaSelecionada); // Salva o valor completo da categoria
+            saveData('reservaNomeCategoria', nomeCategoriaSelecionadaParaExibicao); // Salva nome curto para exibição, se necessário
             saveData('reservaTempo', tempoSelecionado);
             console.log('Categoria Salva:', categoriaSelecionada);
             console.log('Tempo Salvo:', tempoSelecionado);
             window.location.href = 'pages/pagina02.html';
         } else {
-            // Isso não deve acontecer se a lógica de habilitação do botão estiver correta
+            // Idealmente, o botão "Próximo" não estaria habilitado.
+            // Mas como fallback, podemos adicionar um alerta.
             alert('Por favor, selecione uma categoria e um tempo de pista.');
         }
     });
+
+    // Não há mais um form#formPagina01, então o evento de submit foi removido
+    // O botão "Próximo" agora tem seu próprio event listener.
 });

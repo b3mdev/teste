@@ -20,9 +20,11 @@ function clearAllReservationDataForNewBooking() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    const nomePilotoSpan = document.getElementById('nomePilotoConfirmacao');
     const emailConfirmacaoSpan = document.getElementById('emailConfirmacao');
     const listaDetalhesReservaUl = document.getElementById('listaDetalhesReserva');
     const listaPilotosConfirmacaoDiv = document.getElementById('listaPilotosConfirmacao');
+    const btnNovaReserva = document.getElementById('btnNovaReservaConfirmacao');
 
     // Carregar todos os dados da reserva do localStorage
     const categoria = loadData('reservaCategoria');
@@ -42,46 +44,60 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Preencher e-mail de confirmação
-    if (pilotoPrincipal && pilotoPrincipal.email) {
-        emailConfirmacaoSpan.textContent = pilotoPrincipal.email;
-    } else {
-        emailConfirmacaoSpan.textContent = "não informado";
+    // Preencher nome e e-mail de confirmação
+    if (pilotoPrincipal) {
+        if (pilotoPrincipal.nome && nomePilotoSpan) {
+            nomePilotoSpan.textContent = pilotoPrincipal.nome.split(" ")[0]; // Pega o primeiro nome
+        }
+        if (pilotoPrincipal.email && emailConfirmacaoSpan) {
+            emailConfirmacaoSpan.textContent = pilotoPrincipal.email;
+        } else if (emailConfirmacaoSpan) {
+            emailConfirmacaoSpan.textContent = "não informado";
+        }
     }
 
+
     // Preencher detalhes da reserva
+    const nomeCategoria = loadData('reservaNomeCategoria') || categoria; // Usa nome curto se disponível
+
     const detalhes = {
-        "Categoria": categoria,
-        "Tempo de Pista": tempo,
-        "Data": dataReserva,
-        "Horário": horarioReserva,
-        "Forma de Pagamento": pagamento.forma === 'cartao' ? `Cartão de Crédito (final **** ${pagamento.cartao.numero || 'N/A'})` : "PIX"
+        "Categoria": `<i class="fas fa-flag-checkered"></i> ${nomeCategoria}`,
+        "Tempo de Pista": `<i class="fas fa-stopwatch"></i> ${tempo}`,
+        "Data": `<i class="fas fa-calendar-day"></i> ${dataReserva}`,
+        "Horário": `<i class="fas fa-clock"></i> ${horarioReserva}`,
+        "Forma de Pagamento": `<i class="fas fa-credit-card"></i> ${pagamento.forma === 'cartao' ? `Cartão de Crédito (final **** ${pagamento.cartao.numero || 'N/A'})` : "PIX"}`
     };
 
+    listaDetalhesReservaUl.innerHTML = ''; // Limpa antes de adicionar
     for (const [chave, valor] of Object.entries(detalhes)) {
         const li = document.createElement('li');
+        // O valor já contém o ícone
         li.innerHTML = `<strong>${chave}:</strong> ${valor}`;
         listaDetalhesReservaUl.appendChild(li);
     }
 
     // Preencher pilotos
-    let pilotosHtml = '<h4>Piloto Principal:</h4>';
-    pilotosHtml += `<p><strong>Nome:</strong> ${pilotoPrincipal.nome}<br>`;
-    pilotosHtml += `<strong>E-mail:</strong> ${pilotoPrincipal.email}<br>`;
-    pilotosHtml += `<strong>WhatsApp:</strong> ${pilotoPrincipal.whatsapp}<br>`;
-    pilotosHtml += `<strong>CPF:</strong> ${pilotoPrincipal.cpf}</p>`;
+    let pilotosHtml = '';
+    if (pilotoPrincipal) {
+        pilotosHtml += `<h4><i class="fas fa-user-shield"></i> Piloto Principal:</h4>`;
+        pilotosHtml += `<p><strong>Nome:</strong> ${pilotoPrincipal.nome}<br>`;
+        pilotosHtml += `<strong>E-mail:</strong> ${pilotoPrincipal.email}<br>`;
+        pilotosHtml += `<strong>WhatsApp:</strong> ${pilotoPrincipal.whatsapp}<br>`;
+        pilotosHtml += `<strong>CPF:</strong> ${pilotoPrincipal.cpf}</p>`;
+    }
+
 
     if (pilotosAdicionais && pilotosAdicionais.length > 0) {
-        pilotosHtml += '<h4>Pilotos Adicionais:</h4>';
+        pilotosHtml += `<h4><i class="fas fa-users"></i> Pilotos Adicionais:</h4>`;
         pilotosAdicionais.forEach((piloto, index) => {
             pilotosHtml += `<div class="piloto-confirmacao-item">`;
-            pilotosHtml += `<p><strong>Piloto ${index + 1}:</strong> ${piloto.nome}`;
+            pilotosHtml += `<p><strong><i class="fas fa-user"></i> ${piloto.nome}</strong>`;
             if (piloto.tipoCadastro === 'completo' && piloto.email) {
-                pilotosHtml += ` (E-mail: ${piloto.email})`;
+                pilotosHtml += ` <span class="piloto-detalhe">(<i class="fas fa-envelope"></i> ${piloto.email})</span>`;
             } else if (piloto.tipoCadastro === 'familiar' && piloto.parentesco) {
-                pilotosHtml += ` (Familiar: ${piloto.parentesco})`;
+                pilotosHtml += ` <span class="piloto-detalhe">(<i class="fas fa-user-friends"></i> ${piloto.parentesco})</span>`;
             } else if (piloto.tipoCadastro === 'familiar') {
-                 pilotosHtml += ` (Familiar)`;
+                 pilotosHtml += ` <span class="piloto-detalhe">(Familiar)</span>`;
             }
             pilotosHtml += `</p></div>`;
         });
@@ -89,29 +105,17 @@ document.addEventListener('DOMContentLoaded', function() {
     listaPilotosConfirmacaoDiv.innerHTML = pilotosHtml;
 
     // Simular envio de e-mail (apenas log no console)
-    console.log(`Simulação: E-mail de confirmação enviado para ${pilotoPrincipal.email} com os seguintes dados:`,
-        { categoria, tempo, dataReserva, horarioReserva, pilotoPrincipal, pilotosAdicionais, pagamento }
-    );
+    if (pilotoPrincipal && pilotoPrincipal.email) {
+        console.log(`Simulação: E-mail de confirmação enviado para ${pilotoPrincipal.email} com os seguintes dados:`,
+            { categoria, tempo, dataReserva, horarioReserva, pilotoPrincipal, pilotosAdicionais, pagamento }
+        );
+    }
 
-    // Limpar dados do localStorage após exibir a confirmação,
-    // para que uma nova reserva comece do zero.
-    // Isso é feito ao clicar no botão "Fazer Nova Reserva" ou se o usuário sair e voltar.
-    // A função clearAllReservationDataForNewBooking() foi chamada em scriptP01.js ao iniciar.
-    // Aqui, vamos garantir que, se o usuário recarregar esta página, os dados ainda estejam lá,
-    // mas se ele clicar em "Nova Reserva", os dados são limpos por scriptP01.js.
-    // Para este passo, não vamos limpar automaticamente, o usuário decide ao clicar no botão.
-    // A limpeza efetiva ocorrerá quando o usuário for para index.html, que já chama clearAllReservationData() em scriptP01.js.
+    if(btnNovaReserva) {
+        btnNovaReserva.addEventListener('click', function() {
+            // A limpeza de dados já é feita em scriptP01.js ao carregar a index.html
+            window.location.href = '../index.html';
+        });
+    }
 
 });
-
-// Adicionar evento ao botão de nova reserva para garantir que os dados sejam limpos
-// Embora scriptP01 já faça isso, é uma boa prática ser explícito.
-// No entanto, o botão redireciona diretamente, então a limpeza em scriptP01.js será suficiente.
-// Se o botão "Fazer Nova Reserva" fosse manipulado por JS aqui antes de redirecionar:
-// const btnNovaReserva = document.querySelector('button.button');
-// if (btnNovaReserva) {
-//     btnNovaReserva.addEventListener('click', function() {
-//         clearAllReservationDataForNewBooking();
-//         window.location.href = '../index.html';
-//     });
-// }

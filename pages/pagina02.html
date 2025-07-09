@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva de Kart - Página 2</title>
+    <title>Reserva de Kart - Data e Horário</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Custom Flatpickr theme can be added here or in style.css -->
 </head>
 <body>
     <header>
@@ -19,28 +24,33 @@
             <div class="progress-step">4. Pagamento</div>
             <div class="progress-step">5. Confirmação</div>
         </div>
-        <section id="pagina02">
-            <h2>Página 2: Escolha da Data e Horário</h2>
-            <form id="formPagina02">
-                <fieldset>
-                    <legend>Selecione a Data:</legend>
-                    <input type="text" id="calendario" placeholder="Escolha uma data" required>
-                </fieldset>
+        <section id="pagina02" class="page-container">
+            <h2><i class="fas fa-calendar-alt"></i> Agende sua Corrida</h2>
 
-                <fieldset id="selecaoHorario" style="display: none;">
-                    <legend>Escolha o Horário:</legend>
-                    <div id="opcoesHorario">
-                        <!-- Opções de horário serão carregadas aqui -->
-                    </div>
-                </fieldset>
-                <br>
-                <button type="button" onclick="window.location.href='../index.html'">Anterior</button>
-                <button type="submit" id="btnProximaPagina02" disabled>Próximo</button>
-            </form>
+            <div class="selection-group">
+                <h3><i class="fas fa-calendar-day"></i> Selecione a Data:</h3>
+                <input type="text" id="calendario" placeholder="Clique para escolher uma data..." required>
+            </div>
+
+            <div id="selecaoHorario" class="selection-group" style="display: none;">
+                <h3><i class="fas fa-clock"></i> Selecione o Horário:</h3>
+                <div id="opcoesHorario" class="horario-options">
+                    <!-- Opções de horário (botões) serão carregadas aqui -->
+                </div>
+            </div>
+
+            <div class="navigation-buttons space-between">
+                <button type="button" id="btnAnteriorPagina02" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+                <button type="button" id="btnProximaPagina02" class="btn-primary" disabled>
+                    Avançar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 Reserva de Kart</p>
+        <p>&copy; 2024 Kart Racing - Todos os direitos reservados.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../js/scriptP02.js"></script>

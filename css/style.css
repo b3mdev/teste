@@ -1,55 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --font-primary: 'Open Sans', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+
+    --color-bg-main: #FFFFFF;
+    --color-bg-card: #F8F9FA; /* Cinza muito claro para cards e fundos sutis */
+    --color-bg-progress: #E9ECEF; /* Cinza para fundo do indicador de progresso */
+
+    --color-text-main: #212529; /* Preto suave */
+    --color-text-secondary: #6C757D; /* Cinza médio */
+    --color-text-headings: #343A40; /* Cinza mais escuro para títulos */
+    --color-text-light: #FFFFFF;
+
+    --color-primary: #007BFF; /* Azul vibrante */
+    --color-primary-darker: #0056b3;
+    --color-primary-lighter: #CCE5FF; /* Azul bem claro para fundos de hover/seleção */
+
+    --color-success: #28a745;
+    --color-error: #dc3545;
+    --color-border: #DEE2E6; /* Cinza claro para bordas */
+    --color-input-bg: #FFFFFF;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 10px rgba(0,0,0,0.08);
+    --border-radius: 6px;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-primary);
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    line-height: 1.6;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 1em 0;
+    background-color: var(--color-text-headings); /* Usando um cinza escuro para o header */
+    color: var(--color-text-light);
+    padding: 1.5em 0; /* Aumentando padding */
     text-align: center;
+    box-shadow: var(--shadow-sm);
 }
 
 header h1 {
     margin: 0;
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    font-size: 2em;
 }
 
 main {
-    padding: 0; /* Removido padding para que o progress-indicator possa ficar fora do shadow */
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #transparent; /* Main fica transparente */
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */ /* Shadow movido para a section */
+    padding: 0;
+    max-width: 900px; /* Aumentando um pouco o max-width */
+    margin: 30px auto; /* Aumentando margem */
+    background-color: transparent;
 }
 
 section {
-    padding: 1em; /* Padding movido para section */
-    background-color: #fff; /* Fundo branco movido para section */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow aplicado na section */
-    margin-bottom: 20px;
+    padding: 2em; /* Aumentando padding interno das seções */
+    background-color: var(--color-bg-main); /* Seções principais com fundo branco */
+    box-shadow: var(--shadow-md); /* Sombra mais pronunciada */
+    border-radius: var(--border-radius);
+    margin-bottom: 30px; /* Aumentando margem inferior */
 }
 
 h2 {
-    color: #333;
+    font-family: var(--font-secondary);
+    color: var(--color-text-headings);
+    font-weight: 500;
+    font-size: 1.8em;
+    margin-bottom: 1em; /* Adicionando margem inferior aos H2 */
+}
+h3 {
+    font-family: var(--font-secondary);
+    color: var(--color-text-headings);
+    font-weight: 500;
+    font-size: 1.5em;
+    margin-bottom: 0.8em;
+}
+h4 {
+    font-family: var(--font-secondary);
+    color: var(--color-text-main);
+    font-weight: 500;
+    font-size: 1.2em;
+    margin-bottom: 0.6em;
 }
 
+
 a {
-    color: #007bff;
+    color: var(--color-primary);
     text-decoration: none;
+    transition: color 0.2s ease-in-out;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: var(--color-primary-darker);
+    text-decoration: none; /* Remover sublinhado padrão no hover */
 }
 
 footer {
     text-align: center;
-    padding: 1em 0;
-    background-color: #333;
-    color: #fff;
+    padding: 1.5em 0;
+    background-color: var(--color-bg-card); /* Fundo mais claro para o footer */
+    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border);
     position: relative;
     bottom: 0;
     width: 100%;
@@ -57,63 +113,97 @@ footer {
 
 /* Estilos para formulários */
 form {
-    margin-top: 20px;
+    margin-top: 1.5em;
 }
 
 fieldset {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    border-radius: var(--border-radius);
+    background-color: var(--color-bg-card); /* Fundo sutil para fieldsets */
 }
 
 legend {
-    padding: 0 10px;
-    font-weight: bold;
-    color: #333;
+    padding: 0 0.8em;
+    font-weight: 600; /* Usando font-weight numérico */
+    color: var(--color-text-headings);
+    font-family: var(--font-secondary);
+    font-size: 1.1em;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: normal;
+    margin-bottom: 0.5em; /* Aumentando margem inferior */
+    font-weight: 600; /* Labels mais fortes */
+    color: var(--color-text-main);
+    font-size: 0.95em;
 }
 
 input[type="radio"],
 input[type="checkbox"] {
-    margin-right: 8px;
+    margin-right: 0.5em;
+    accent-color: var(--color-primary); /* Estiliza a cor do radio/checkbox em navegadores modernos */
 }
 
 input[type="text"],
 input[type="email"],
 input[type="tel"],
+input[type="date"], /* Adicionado para o calendário do admin */
 select {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 100%; /* Simplificado */
+    padding: 0.75em 1em; /* Usando em para padding */
+    margin-bottom: 1em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
     box-sizing: border-box;
+    background-color: var(--color-input-bg);
+    color: var(--color-text-main);
+    font-family: var(--font-primary);
+    font-size: 1em;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem var(--color-primary-lighter);
+}
+
+
+button, /* Aplicando a todos os botões */
 button[type="submit"],
 .button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    padding: 0.75em 1.5em; /* Padding com em */
     border: none;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1em;
+    font-family: var(--font-secondary);
+    font-weight: 500;
+    text-transform: uppercase; /* Botões em maiúsculo para um visual moderno */
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: var(--shadow-sm);
 }
 
+button:hover,
 button[type="submit"]:hover,
 .button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-primary-darker);
+    box-shadow: var(--shadow-md);
 }
 
-button:disabled {
-    background-color: #ccc;
+button:disabled,
+button[type="submit"]:disabled {
+    background-color: var(--color-text-secondary);
+    box-shadow: none;
     cursor: not-allowed;
 }
 
@@ -287,31 +377,836 @@ button:disabled {
 /* Indicador de Progresso */
 .progress-indicator {
     display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    background-color: #e9ecef;
-    margin-bottom: 20px;
-    border-radius: 4px;
+    justify-content: space-around; /* Mantido */
+    padding: 0.8em 0; /* Usando em */
+    background-color: var(--color-bg-progress);
+    margin-bottom: 2em; /* Aumentando margem */
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
 }
 
 .progress-step {
-    padding: 8px 15px;
-    color: #495057;
-    border-radius: 4px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    font-size: 0.9em;
+    padding: 0.6em 1em; /* Usando em */
+    color: var(--color-text-secondary);
+    border-radius: var(--border-radius);
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    font-size: 0.85em; /* Levemente menor */
+    font-family: var(--font-secondary);
+    font-weight: 500;
+    text-align: center;
+    flex-grow: 1; /* Para ocupar espaço igualmente */
+    margin: 0 5px; /* Pequena margem entre os steps */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .progress-step.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-    font-weight: bold;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary);
+    font-weight: 700; /* Mais forte para o ativo */
 }
 
 .progress-step.completed {
-    background-color: #28a745;
-    color: white;
-    border-color: #28a745;
+    background-color: var(--color-success);
+    color: var(--color-text-light);
+    border-color: var(--color-success);
+    font-weight: 500;
+}
+
+
+/* === Estilos da Página 1: Seleção de Categoria e Tempo === */
+.page-container { /* Classe genérica para containers de página se necessário */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.selection-group {
+    margin-bottom: 2.5em;
+}
+
+.selection-group h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--color-text-headings);
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+}
+.selection-group h3 i {
+    margin-right: 0.5em;
+    color: var(--color-primary);
+}
+
+.categoria-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Responsivo */
+    gap: 1.5em;
+}
+
+.categoria-btn, .tempo-btn {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 1.5em 1em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.categoria-btn i {
+    margin-bottom: 0.5em;
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+
+.categoria-btn span {
+    font-size: 1.1em;
+    display: block;
+}
+.categoria-btn small {
+    font-size: 0.85em;
+    color: var(--color-text-secondary);
+    font-weight: 400; /* Open Sans normal */
+    font-family: var(--font-primary);
+}
+
+.categoria-btn:hover, .tempo-btn:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+.categoria-btn.selected, .tempo-btn.selected {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary-darker);
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+.categoria-btn.selected i {
+    color: var(--color-text-light);
+}
+.categoria-btn.selected small {
+    color: var(--color-primary-lighter);
+}
+
+
+.tempo-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center; /* Centraliza os botões se não preencherem a linha */
+    animation: fadeIn 0.4s ease-out;
+}
+
+.tempo-btn {
+    padding: 0.8em 1.5em; /* Menor padding para botões de tempo */
+    font-size: 0.95em;
+    min-width: 80px;
+}
+
+.navigation-buttons {
+    margin-top: 2.5em;
+    text-align: right; /* Alinha o botão de avançar à direita */
+}
+
+/* Ajuste para o botão primário já definido, mas podemos adicionar especificidade se necessário */
+.btn-primary {
+    /* Estilos já definidos globalmente para button, .button */
+}
+.btn-primary i {
+    margin-left: 0.5em;
+}
+.btn-secondary i {
+    margin-right: 0.5em;
+}
+
+
+/* === Estilos da Página 2: Data e Horário === */
+#calendario {
+    width: 100%;
+    padding: 0.75em 1em;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-input-bg);
+    color: var(--color-text-main);
+    font-family: var(--font-primary);
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+#calendario:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem var(--color-primary-lighter);
+}
+
+/* Tema Minimalista para Flatpickr */
+.flatpickr-calendar {
+    font-family: var(--font-primary);
+    background: var(--color-bg-main);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+.flatpickr-months .flatpickr-month {
+    color: var(--color-text-headings);
+    fill: var(--color-text-headings);
+}
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    fill: var(--color-primary);
+    color: var(--color-primary);
+}
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+    fill: var(--color-primary-darker);
+}
+.flatpickr-weekday {
+    color: var(--color-text-secondary);
+    font-weight: 600;
+}
+.dayContainer .flatpickr-day {
+    color: var(--color-text-main);
+    border: 1px solid transparent; /* Para manter o tamanho */
+    transition: background-color 0.2s, color 0.2s;
+}
+.dayContainer .flatpickr-day:hover {
+    background: var(--color-primary-lighter);
+    color: var(--color-primary-darker);
+    border-radius: var(--border-radius);
+}
+.dayContainer .flatpickr-day.today {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+.dayContainer .flatpickr-day.selected,
+.dayContainer .flatpickr-day.startRange,
+.dayContainer .flatpickr-day.endRange {
+    background: var(--color-primary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary-darker);
+    border-radius: var(--border-radius);
+}
+.dayContainer .flatpickr-day.disabled,
+.dayContainer .flatpickr-day.flatpickr-disabled {
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.horario-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 1em;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.horario-btn {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 0.8em 0.5em; /* Padding ajustado para mais botões por linha */
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.9em;
+    box-shadow: var(--shadow-sm);
+}
+
+.horario-btn:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.horario-btn.selected {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary-darker);
+}
+
+.horario-btn:disabled { /* Para simular horários indisponíveis */
+    background-color: var(--color-bg-card);
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.navigation-buttons.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-secondary {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border); /* Adiciona borda para destaque */
+}
+.btn-secondary:hover {
+    background-color: var(--color-border); /* Escurece um pouco no hover */
+    color: var(--color-text-headings);
+}
+
+
+/* === Estilos da Página 3: Dados do Piloto === */
+.fieldset-modern {
+    background-color: transparent; /* fieldset em si transparente */
+    border: none; /* remove borda padrão do fieldset */
+    padding: 0; /* remove padding padrão */
+    margin-bottom: 2em;
+}
+.fieldset-modern legend {
+    font-size: 1.3em; /* Mesmo tamanho do h3 .selection-group */
+    font-weight: 600;
+    color: var(--color-text-headings);
+    margin-bottom: 1em;
+    padding-left: 0; /* Remove padding do legend se não houver borda */
+    width: 100%; /* Para a borda inferior ocupar toda a largura */
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5em; /* Espaçamento para a borda */
+    display: flex;
+    align-items: center;
+}
+.fieldset-modern legend i {
+    margin-right: 0.5em;
+    color: var(--color-primary);
+}
+
+.form-group {
+    margin-bottom: 1.5em; /* Espaçamento entre grupos de label/input */
+}
+.form-group label i {
+    margin-right: 0.4em;
+    width: 20px; /* Alinhamento dos ícones */
+    text-align: center;
+    color: var(--color-text-secondary); /* Ícones dos labels mais sutis */
+}
+
+.recaptcha-mock {
+    width: 100%; /* Ocupa a largura do container */
+    max-width: 304px; /* Largura padrão do reCAPTCHA */
+    height: 78px;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9em;
+    padding: 10px;
+    box-shadow: var(--shadow-sm);
+}
+.recaptcha-mock i {
+    color: var(--color-success);
+    margin-right: 0.5em;
+    font-size: 1.2em;
+}
+
+#pilotosAdicionaisContainer {
+    /* Usa .selection-group styles */
+    padding: 1.5em;
+    background-color: var(--color-bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    margin-top: 2em;
+}
+#pilotosAdicionaisContainer h3 {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5em;
+}
+
+
+.piloto-adicional-item {
+    background-color: var(--color-bg-main);
+    padding: 1.5em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5em;
+    box-shadow: var(--shadow-sm);
+    animation: fadeIn 0.3s ease-out;
+    position: relative; /* Para posicionar o botão de remover */
+}
+.piloto-adicional-item:last-child {
+    margin-bottom: 0;
+}
+
+.piloto-adicional-item h4 {
+    font-size: 1.1em;
+    color: var(--color-primary);
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid var(--color-primary-lighter);
+}
+
+.btn-add-piloto {
+    display: block; /* Ocupa a largura disponível */
+    width: 100%;
+    max-width: 300px; /* Limita a largura máxima */
+    margin: 1.5em auto 0 auto; /* Centraliza */
+    text-align: center;
+    font-size: 0.95em;
+    padding: 0.8em 1em;
+}
+.btn-add-piloto i {
+    margin-right: 0.5em;
+}
+
+
+.btnRemoverPiloto {
+    background-color: transparent;
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+    padding: 0.4em 0.8em;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.85em;
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    position: absolute;
+    top: 1.5em; /* Alinha com o padding do card */
+    right: 1.5em;
+}
+.btnRemoverPiloto i {
+    margin-right: 0.3em;
+}
+
+.btnRemoverPiloto:hover {
+    background-color: var(--color-error);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Ajustes para inputs dentro de .piloto-adicional-item se necessário */
+.piloto-adicional-item .form-group {
+    margin-bottom: 1em;
+}
+.piloto-adicional-item label {
+    font-size: 0.9em;
+}
+.piloto-adicional-item input[type="text"],
+.piloto-adicional-item input[type="email"],
+.piloto-adicional-item select {
+    font-size: 0.95em;
+    padding: 0.6em 0.8em;
+}
+
+/* === Estilos da Página 4: Pagamento === */
+.forma-pagamento-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5em;
+    margin-bottom: 2em;
+}
+
+.forma-pagamento-btn {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 1.5em 1em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+.forma-pagamento-btn i {
+    margin-bottom: 0.5em;
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+.forma-pagamento-btn span {
+    font-size: 1.1em;
+}
+.forma-pagamento-btn:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+.forma-pagamento-btn.selected {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary-darker);
+}
+.forma-pagamento-btn.selected i {
+    color: var(--color-text-light);
+}
+
+.payment-details { /* Container para dados do cartão ou PIX */
+    margin-top: 1em;
+    padding: 1.5em;
+    background-color: var(--color-bg-card);
+    border-radius: var(--border-radius);
+    animation: fadeIn 0.4s ease-out;
+    /* box-shadow: var(--shadow-inner, inset 0 1px 3px rgba(0,0,0,0.05)); */ /* Sombra interna sutil */
+}
+.payment-details .fieldset-modern {
+    background-color: transparent; /* fieldset dentro de payment-details */
+    box-shadow: none;
+    padding:0;
+}
+
+
+.form-row {
+    display: flex;
+    gap: 1.5em;
+}
+.form-row .form-group {
+    flex: 1;
+}
+.form-group.half-width {
+    width: calc(50% - 0.75em); /* Considera o gap */
+}
+
+
+.pix-instructions {
+    font-size: 0.95em;
+    color: var(--color-text-secondary);
+    margin-bottom: 1em;
+    text-align: center;
+}
+.pix-qr-code {
+    width: 180px;
+    height: 180px;
+    background-color: var(--color-bg-main);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    margin: 0 auto 1.5em auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    box-shadow: var(--shadow-sm);
+}
+.pix-qr-code i {
+    color: var(--color-text-main); /* QR code icon color */
+    margin-bottom: 0.3em;
+}
+.pix-qr-code span {
+    font-size: 0.8em;
+}
+
+.pix-copy-group .input-group {
+    display: flex;
+    align-items: center;
+}
+.pix-copy-group input[readonly] {
+    background-color: var(--color-bg-main); /* Fundo diferente para readonly */
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.btn-icon { /* Botão apenas com ícone */
+    padding: 0.75em; /* Mesmo padding vertical do input */
+    line-height: 1; /* Para alinhar ícone verticalmente */
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.btn-icon i {
+    margin: 0; /* Remove margem se for só ícone */
+}
+
+.pix-status {
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--color-primary);
+    margin-top: 1em;
+    padding: 0.5em;
+    background-color: var(--color-primary-lighter);
+    border-radius: var(--border-radius);
+}
+
+.payment-message {
+    padding: 1em;
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-weight: 600;
+    margin-top: 1.5em;
+    font-size: 0.95em;
+    animation: fadeIn 0.3s;
+}
+.payment-message.success {
+    background-color: var(--color-success-lighter, #D4EDDA); /* Definir se não existir */
+    color: var(--color-success-darker, #155724); /* Definir se não existir */
+    border: 1px solid var(--color-success, #28a745);
+}
+.payment-message.error {
+    background-color: var(--color-error-lighter, #F8D7DA); /* Definir se não existir */
+    color: var(--color-error-darker, #721C24); /* Definir se não existir */
+    border: 1px solid var(--color-error, #dc3545);
+}
+
+/* Adicionar variáveis de cor faltantes se usadas acima */
+:root {
+    --color-success-lighter: #D4EDDA;
+    --color-success-darker: #155724;
+    --color-error-lighter: #F8D7DA;
+    --color-error-darker: #721C24;
+}
+
+/* === Estilos da Página 5: Confirmação === */
+.confirmation-page {
+    text-align: center; /* Centraliza o conteúdo principal da página */
+}
+.confirmation-icon {
+    color: var(--color-success);
+    margin-bottom: 0.5em;
+}
+.confirmation-page h2 {
+    font-size: 2em;
+    color: var(--color-success-darker, var(--color-success)); /* Usa a var se existir, senão o verde padrão */
+    margin-bottom: 0.5em;
+}
+.confirmation-intro {
+    font-size: 1.2em;
+    color: var(--color-text-main);
+    margin-bottom: 0.2em;
+}
+.confirmation-email-info {
+    font-size: 0.95em;
+    color: var(--color-text-secondary);
+    margin-bottom: 2em;
+}
+
+.resumo-container, .instrucoes-container {
+    background-color: var(--color-bg-card);
+    padding: 1.5em;
+    border-radius: var(--border-radius);
+    margin-bottom: 2em;
+    text-align: left; /* Alinha o texto dentro dos cards à esquerda */
+    box-shadow: var(--shadow-sm);
+}
+.resumo-container h3, .instrucoes-container h3 {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    color: var(--color-text-headings);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.6em;
+    margin-bottom: 1em;
+}
+.resumo-container h3 i, .instrucoes-container h3 i {
+    margin-right: 0.6em;
+    color: var(--color-primary);
+}
+
+.resumo-list {
+    list-style: none;
+    padding-left: 0;
+}
+.resumo-list li {
+    margin-bottom: 0.8em;
+    font-size: 1em;
+    color: var(--color-text-main);
+    display: flex; /* Para alinhar ícone com texto se adicionado */
+    align-items: center;
+}
+.resumo-list li strong {
+    color: var(--color-text-headings);
+    min-width: 150px; /* Para alinhar os valores */
+    display: inline-block;
+}
+.resumo-list li i { /* Para ícones em cada item da lista, se desejado */
+    margin-right: 0.5em;
+    color: var(--color-text-secondary);
+}
+
+
+.resumo-pilotos {
+    font-size: 1em;
+}
+.resumo-pilotos h4 { /* Piloto Principal, Pilotos Adicionais */
+    font-size: 1.1em;
+    color: var(--color-primary);
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+.resumo-pilotos p {
+    margin-bottom: 0.3em;
+    line-height: 1.5;
+}
+.resumo-pilotos .piloto-confirmacao-item {
+    padding-left: 1em;
+    border-left: 3px solid var(--color-primary-lighter);
+    margin-bottom: 0.8em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+
+.instrucoes-list {
+    list-style: none;
+    padding-left: 0;
+}
+.instrucoes-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8em;
+    font-size: 0.95em;
+    color: var(--color-text-main);
+}
+.instrucoes-list li i {
+    margin-right: 0.8em;
+    color: var(--color-primary);
+    width: 20px; /* Garante alinhamento */
+    text-align: center;
+}
+.instrucoes-list li strong {
+    color: var(--color-text-headings);
+}
+
+.contato-info {
+    margin-top: 1.5em;
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+}
+
+#btnNovaReservaConfirmacao {
+    /* Estilos de .btn-primary já aplicados */
+    margin-top: 1em; /* Espaçamento do último container */
+    /* Centralizado pela div .navigation-buttons se essa classe for reutilizada,
+       ou pode ser centralizado aqui com margin: 1em auto 0 auto; display: block; */
+}
+#btnNovaReservaConfirmacao i {
+    margin-right: 0.5em;
+}
+
+/* Certifique-se que o botão de nova reserva na página 5 esteja centralizado */
+#pagina05 .navigation-buttons {
+    text-align: center; /* Centraliza o botão */
+}
+
+/* === Media Queries para Responsividade === */
+@media (max-width: 768px) {
+    body {
+        font-size: 15px; /* Ajusta o tamanho base da fonte para telas menores */
+    }
+    header h1 {
+        font-size: 1.8em;
+    }
+    main {
+        margin: 15px auto;
+        padding: 0 10px; /* Adiciona um pouco de padding lateral em telas mobile */
+    }
+    section {
+        padding: 1.5em;
+    }
+    h2 {
+        font-size: 1.6em;
+    }
+    h3 {
+        font-size: 1.3em;
+    }
+
+    .progress-indicator {
+        flex-direction: column; /* Empilha os steps */
+        gap: 5px;
+        padding: 0.5em;
+        margin-bottom: 1.5em;
+    }
+    .progress-step {
+        font-size: 0.8em;
+        padding: 0.5em 0.8em;
+        margin: 0; /* Remove margem lateral quando empilhado */
+    }
+
+    .categoria-options,
+    .forma-pagamento-options {
+        grid-template-columns: 1fr; /* Uma coluna para telas menores */
+        gap: 1em;
+    }
+    .categoria-btn, .forma-pagamento-btn {
+        padding: 1em;
+    }
+    .categoria-btn i, .forma-pagamento-btn i {
+        font-size: 1.8em; /* Ajusta tamanho do ícone */
+    }
+    .categoria-btn span, .forma-pagamento-btn span {
+        font-size: 1em;
+    }
+
+
+    .horario-options {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+        gap: 0.8em;
+    }
+    .horario-btn {
+        font-size: 0.85em;
+        padding: 0.7em 0.4em;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0; /* Remove gap quando empilhado, margin-bottom do form-group já cuida */
+    }
+    .form-group.half-width {
+        width: 100%;
+    }
+
+    .navigation-buttons {
+        margin-top: 2em;
+    }
+    .navigation-buttons.space-between {
+        flex-direction: column;
+        gap: 1em;
+    }
+    .navigation-buttons.space-between button {
+        width: 100%; /* Botões de navegação ocupam toda a largura */
+    }
+
+    /* Ajustes para página de confirmação */
+    .resumo-list li strong {
+        min-width: 120px; /* Reduz min-width para telas menores */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+    header h1 {
+        font-size: 1.5em;
+    }
+    section {
+        padding: 1em;
+    }
+     h2 {
+        font-size: 1.4em;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    .progress-step {
+        font-size: 0.75em;
+    }
+    #btnNovaReservaConfirmacao i { /* Esconde ícone no botão se ficar muito apertado */
+      /* display: none; */
+    }
 }

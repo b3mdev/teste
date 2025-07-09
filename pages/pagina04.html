@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva de Kart - Página 4</title>
+    <title>Reserva de Kart - Pagamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -18,65 +22,84 @@
             <div class="progress-step active">4. Pagamento</div>
             <div class="progress-step">5. Confirmação</div>
         </div>
-        <section id="pagina04">
-            <h2>Página 4: Pagamento</h2>
-            <form id="formPagina04">
-                <fieldset>
-                    <legend>Escolha a Forma de Pagamento:</legend>
-                    <div>
-                        <input type="radio" id="cartao" name="formaPagamento" value="cartao" required>
-                        <label for="cartao">Cartão de Crédito</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="pix" name="formaPagamento" value="pix">
-                        <label for="pix">PIX</label>
-                    </div>
-                </fieldset>
+        <section id="pagina04" class="page-container">
+            <h2><i class="fas fa-credit-card"></i> Pagamento</h2>
 
-                <div id="dadosCartao" style="display: none;">
-                    <fieldset>
-                        <legend>Dados do Cartão de Crédito</legend>
-                        <div>
-                            <label for="numeroCartao">Número do Cartão:</label>
+            <div id="selecaoFormaPagamento" class="selection-group">
+                <h3><i class="fas fa-hand-holding-usd"></i> Escolha a Forma de Pagamento:</h3>
+                <div class="forma-pagamento-options">
+                    <button class="forma-pagamento-btn" data-valor="cartao">
+                        <i class="fas fa-credit-card fa-2x"></i>
+                        <span>Cartão de Crédito</span>
+                    </button>
+                    <button class="forma-pagamento-btn" data-valor="pix">
+                        <i class="fas fa-qrcode fa-2x"></i> <!-- Ícone PIX ajustado -->
+                        <span>PIX</span>
+                    </button>
+                </div>
+            </div>
+
+            <form id="formPagamentoDetalhes">
+                <!-- Dados do Cartão (movido para dentro do form) -->
+                <div id="dadosCartao" class="payment-details" style="display: none;">
+                    <fieldset class="fieldset-modern">
+                        <legend><i class="fas fa-address-card"></i> Dados do Cartão de Crédito</legend>
+                        <div class="form-group">
+                            <label for="numeroCartao"><i class="fas fa-digital-tachograph"></i> Número do Cartão:</label>
                             <input type="text" id="numeroCartao" name="numeroCartao" placeholder="0000 0000 0000 0000">
                         </div>
-                        <div>
-                            <label for="nomeCartao">Nome no Cartão:</label>
+                        <div class="form-group">
+                            <label for="nomeCartao"><i class="fas fa-user-circle"></i> Nome no Cartão:</label>
                             <input type="text" id="nomeCartao" name="nomeCartao" placeholder="Como aparece no cartão">
                         </div>
-                        <div>
-                            <label for="validadeCartao">Validade (MM/AA):</label>
-                            <input type="text" id="validadeCartao" name="validadeCartao" placeholder="MM/AA">
-                        </div>
-                        <div>
-                            <label for="cvvCartao">CVV:</label>
-                            <input type="text" id="cvvCartao" name="cvvCartao" placeholder="123">
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="validadeCartao"><i class="fas fa-calendar-times"></i> Validade (MM/AA):</label>
+                                <input type="text" id="validadeCartao" name="validadeCartao" placeholder="MM/AA">
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="cvvCartao"><i class="fas fa-key"></i> CVV:</label>
+                                <input type="text" id="cvvCartao" name="cvvCartao" placeholder="123">
+                            </div>
                         </div>
                     </fieldset>
                 </div>
 
-                <div id="dadosPix" style="display: none;">
-                    <fieldset>
-                        <legend>Pagamento com PIX</legend>
-                        <p>Escaneie o QR Code abaixo ou copie o código para pagar:</p>
-                        <div id="pixQRCodePlaceholder" style="width: 200px; height: 200px; background-color: #e0e0e0; border: 1px solid #ccc; margin: 10px auto; display: flex; align-items: center; justify-content: center;">
-                            [Simulação QR Code PIX]
+                <!-- Dados do PIX (movido para dentro do form) -->
+                <div id="dadosPix" class="payment-details" style="display: none;">
+                    <fieldset class="fieldset-modern">
+                        <legend><i class="fas fa-qrcode"></i> Pagamento com PIX</legend>
+                        <p class="pix-instructions">Escaneie o QR Code abaixo ou copie o código para pagar:</p>
+                        <div id="pixQRCodePlaceholder" class="pix-qr-code">
+                            <i class="fas fa-qrcode fa-5x"></i>
+                            <span>[Simulação QR Code PIX]</span>
                         </div>
-                        <label for="pixCodigo">Código PIX (copia e cola):</label>
-                        <input type="text" id="pixCodigo" name="pixCodigo" value="simulacao_codigo_pix_123456789abcdefghi" readonly>
-                        <button type="button" id="btnCopiarPix">Copiar Código</button>
-                        <p style="margin-top:10px;"><strong>Aguardando confirmação do pagamento...</strong> (Simulado)</p>
+                        <div class="form-group pix-copy-group">
+                            <label for="pixCodigo">Código PIX (copia e cola):</label>
+                            <div class="input-group">
+                                <input type="text" id="pixCodigo" name="pixCodigo" value="simulacao_codigo_pix_123456789abcdefghi_jklmnopqrstuv_wxyz_0123456789" readonly>
+                                <button type="button" id="btnCopiarPix" class="btn-icon"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <p id="pixStatusMsg" class="pix-status" style="display:none;"><strong>Aguardando confirmação do pagamento...</strong> (Simulado)</p>
                     </fieldset>
                 </div>
-                <br>
-                <button type="button" onclick="window.location.href='pagina03.html'">Anterior</button>
-                <button type="submit" id="btnFinalizarPagamento">Finalizar Pagamento</button>
+
+                <div id="mensagemPagamento" class="payment-message" style="display: none;"></div>
+
+                <div class="navigation-buttons space-between">
+                    <button type="button" id="btnAnteriorPagina04" class="btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    <button type="submit" id="btnFinalizarPagamento" class="btn-primary" disabled>
+                        Finalizar Pagamento <i class="fas fa-check-circle"></i>
+                    </button>
+                </div>
             </form>
-            <div id="mensagemPagamento" style="margin-top: 20px;"></div>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 Reserva de Kart</p>
+        <p>&copy; 2024 Kart Racing - Todos os direitos reservados.</p>
     </footer>
     <script src="../js/scriptP04.js"></script>
 </body>

@@ -10,12 +10,16 @@ function loadData(key) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const formPagina04 = document.getElementById('formPagina04');
-    const radiosFormaPagamento = document.querySelectorAll('input[name="formaPagamento"]');
+    // const formPagina04 = document.getElementById('formPagina04'); // Removido, agora é formPagamentoDetalhes
+    const formaPagamentoButtons = document.querySelectorAll('.forma-pagamento-btn');
     const dadosCartaoDiv = document.getElementById('dadosCartao');
     const dadosPixDiv = document.getElementById('dadosPix');
+    const formPagamentoDetalhes = document.getElementById('formPagamentoDetalhes'); // Novo form
     const btnFinalizarPagamento = document.getElementById('btnFinalizarPagamento');
+    const btnAnteriorPagina04 = document.getElementById('btnAnteriorPagina04');
     const mensagemPagamentoDiv = document.getElementById('mensagemPagamento');
+    const pixStatusMsg = document.getElementById('pixStatusMsg');
+
 
     // Campos do cartão
     const numeroCartaoInput = document.getElementById('numeroCartao');
@@ -36,30 +40,43 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    radiosFormaPagamento.forEach(radio => {
-        radio.addEventListener('change', function() {
-            formaPagamentoSelecionada = this.value;
-            if (this.value === 'cartao') {
+    formaPagamentoButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            formaPagamentoButtons.forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+            formaPagamentoSelecionada = this.dataset.valor;
+            btnFinalizarPagamento.disabled = false; // Habilita o botão de finalizar
+
+            if (formaPagamentoSelecionada === 'cartao') {
                 dadosCartaoDiv.style.display = 'block';
                 dadosPixDiv.style.display = 'none';
-                // Tornar campos de cartão obrigatórios
+                pixStatusMsg.style.display = 'none';
+                // Tornar campos de cartão obrigatórios dinamicamente se necessário (HTML5 required já pode estar lá)
                 numeroCartaoInput.required = true;
                 nomeCartaoInput.required = true;
                 validadeCartaoInput.required = true;
                 cvvCartaoInput.required = true;
-            } else if (this.value === 'pix') {
+            } else if (formaPagamentoSelecionada === 'pix') {
                 dadosCartaoDiv.style.display = 'none';
                 dadosPixDiv.style.display = 'block';
+                 pixStatusMsg.style.display = 'block'; // Mostra "Aguardando..."
                 // Campos de cartão não são mais obrigatórios
                 numeroCartaoInput.required = false;
                 nomeCartaoInput.required = false;
                 validadeCartaoInput.required = false;
                 cvvCartaoInput.required = false;
             }
+            // Força um reflow para a animação CSS funcionar ao mudar display de none para block
+            void dadosCartaoDiv.offsetWidth;
+            void dadosPixDiv.offsetWidth;
         });
     });
 
-    // Máscaras para cartão (simples)
+    btnAnteriorPagina04.addEventListener('click', function() {
+        window.location.href = 'pagina03.html';
+    });
+
+    // Máscaras para cartão (simples) - Mantidas
     numeroCartaoInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
@@ -87,69 +104,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    if (formPagamentoDetalhes) { // Verifica se o formulário existe
+        formPagamentoDetalhes.addEventListener('submit', function(event) {
+            event.preventDefault();
+            btnFinalizarPagamento.disabled = true;
+            btnFinalizarPagamento.innerHTML = 'Processando <i class="fas fa-spinner fa-spin"></i>';
 
-    formPagina04.addEventListener('submit', function(event) {
-        event.preventDefault();
-        btnFinalizarPagamento.disabled = true;
-        btnFinalizarPagamento.textContent = 'Processando...';
-        mensagemPagamentoDiv.textContent = '';
+            mensagemPagamentoDiv.textContent = '';
+            mensagemPagamentoDiv.style.display = 'none';
+            mensagemPagamentoDiv.className = 'payment-message';
 
-        const dadosPagamento = {
-            forma: formaPagamentoSelecionada
-        };
-
-        if (formaPagamentoSelecionada === 'cartao') {
-            if (!numeroCartaoInput.value || !nomeCartaoInput.value || !validadeCartaoInput.value || !cvvCartaoInput.value) {
-                mensagemPagamentoDiv.textContent = 'Erro: Por favor, preencha todos os dados do cartão.';
-                mensagemPagamentoDiv.style.color = 'red';
-                btnFinalizarPagamento.disabled = false;
-                btnFinalizarPagamento.textContent = 'Finalizar Pagamento';
-                return;
-            }
-            dadosPagamento.cartao = {
-                numero: numeroCartaoInput.value.slice(-4), // Salvar apenas os últimos 4 dígitos por segurança (simulação)
-                nome: nomeCartaoInput.value,
-                validade: validadeCartaoInput.value,
-                // Não salvar CVV
+            const dadosPagamento = {
+                forma: formaPagamentoSelecionada
             };
-            // Simulação de processamento de cartão
-            setTimeout(() => {
-                // Simular sucesso ou falha aleatoriamente
-                const sucesso = Math.random() > 0.2; // 80% de chance de sucesso
-                if (sucesso) {
-                    mensagemPagamentoDiv.textContent = 'Pagamento com cartão aprovado!';
-                    mensagemPagamentoDiv.style.color = 'green';
+
+            if (formaPagamentoSelecionada === 'cartao') {
+                if (!numeroCartaoInput.value || !nomeCartaoInput.value || !validadeCartaoInput.value || !cvvCartaoInput.value) {
+                    mensagemPagamentoDiv.textContent = 'Erro: Por favor, preencha todos os dados do cartão.';
+                    mensagemPagamentoDiv.className = 'payment-message error';
+                    mensagemPagamentoDiv.style.display = 'block';
+                    btnFinalizarPagamento.disabled = false;
+                    btnFinalizarPagamento.innerHTML = 'Finalizar Pagamento <i class="fas fa-check-circle"></i>';
+                    return;
+                }
+                dadosPagamento.cartao = {
+                    numero: numeroCartaoInput.value.slice(-4),
+                    nome: nomeCartaoInput.value,
+                    validade: validadeCartaoInput.value,
+                };
+
+                setTimeout(() => {
+                    const sucesso = Math.random() > 0.2;
+                    if (sucesso) {
+                        mensagemPagamentoDiv.textContent = 'Pagamento com cartão aprovado!';
+                        mensagemPagamentoDiv.className = 'payment-message success';
+                        saveData('reservaPagamento', dadosPagamento);
+                        console.log("Pagamento Salvo:", dadosPagamento);
+                        setTimeout(() => { window.location.href = 'pagina05.html'; }, 1500);
+                    } else {
+                        mensagemPagamentoDiv.textContent = 'Falha no pagamento com cartão. Verifique os dados ou tente outra forma.';
+                        mensagemPagamentoDiv.className = 'payment-message error';
+                        btnFinalizarPagamento.disabled = false;
+                        btnFinalizarPagamento.innerHTML = 'Finalizar Pagamento <i class="fas fa-check-circle"></i>';
+                    }
+                    mensagemPagamentoDiv.style.display = 'block';
+                }, 2000);
+
+            } else if (formaPagamentoSelecionada === 'pix') {
+                dadosPagamento.pix = {
+                    codigo: pixCodigoInput.value
+                };
+                pixStatusMsg.style.display = 'block'; // Já deve estar visível se PIX foi selecionado
+                pixStatusMsg.innerHTML = 'Aguardando confirmação do pagamento PIX... <i class="fas fa-spinner fa-spin"></i>';
+
+                setTimeout(() => {
+                    pixStatusMsg.innerHTML = 'Pagamento PIX confirmado! <i class="fas fa-check-square" style="color: var(--color-success);"></i>';
+
+                    mensagemPagamentoDiv.textContent = 'Pagamento PIX confirmado!';
+                    mensagemPagamentoDiv.className = 'payment-message success';
+                    mensagemPagamentoDiv.style.display = 'block';
+
                     saveData('reservaPagamento', dadosPagamento);
                     console.log("Pagamento Salvo:", dadosPagamento);
-                    window.location.href = 'pagina05.html';
-                } else {
-                    mensagemPagamentoDiv.textContent = 'Falha no pagamento com cartão. Verifique os dados ou tente outra forma.';
-                    mensagemPagamentoDiv.style.color = 'red';
-                    btnFinalizarPagamento.disabled = false;
-                    btnFinalizarPagamento.textContent = 'Finalizar Pagamento';
-                }
-            }, 2000);
-
-        } else if (formaPagamentoSelecionada === 'pix') {
-            dadosPagamento.pix = {
-                codigo: pixCodigoInput.value
-            };
-            // Simulação de confirmação de PIX
-            mensagemPagamentoDiv.textContent = 'Aguardando confirmação do pagamento PIX... (Isso pode levar alguns instantes)';
-            mensagemPagamentoDiv.style.color = 'blue';
-            setTimeout(() => {
-                // Simular sucesso (PIX geralmente é rápido)
-                mensagemPagamentoDiv.textContent = 'Pagamento PIX confirmado!';
-                mensagemPagamentoDiv.style.color = 'green';
-                saveData('reservaPagamento', dadosPagamento);
-                console.log("Pagamento Salvo:", dadosPagamento);
-                window.location.href = 'pagina05.html';
-            }, 3000); // Simula um tempo para "confirmação"
-        } else {
-            mensagemPagamentoDiv.textContent = 'Por favor, selecione uma forma de pagamento.';
-            mensagemPagamentoDiv.style.color = 'red';
-            btnFinalizarPagamento.disabled = false;
-            btnFinalizarPagamento.textContent = 'Finalizar Pagamento';
-        }
-    });
+                    setTimeout(() => { window.location.href = 'pagina05.html'; }, 1500);
+                }, 3000);
+            } else {
+                mensagemPagamentoDiv.textContent = 'Por favor, selecione uma forma de pagamento.';
+                mensagemPagamentoDiv.className = 'payment-message error';
+                mensagemPagamentoDiv.style.display = 'block';
+                btnFinalizarPagamento.disabled = false;
+                btnFinalizarPagamento.innerHTML = 'Finalizar Pagamento <i class="fas fa-check-circle"></i>';
+            }
+        });
+    }
 });

@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const btnAdicionarPiloto = document.getElementById('btnAdicionarPiloto');
     const listaPilotosAdicionaisDiv = document.getElementById('listaPilotosAdicionais');
+    const btnAnteriorPagina03 = document.getElementById('btnAnteriorPagina03');
     let pilotosAdicionais = []; // Array para armazenar os pilotos adicionais
 
     // Carregar pilotos adicionais se já existirem no localStorage (ex: ao voltar de outra página)
@@ -66,31 +67,31 @@ document.addEventListener('DOMContentLoaded', function() {
     function adicionarNovoFormularioPiloto(piloto = {}, index = pilotosAdicionais.length) {
         const novoPilotoDiv = document.createElement('div');
         novoPilotoDiv.classList.add('piloto-adicional-item');
-        novoPilotoDiv.dataset.index = index;
+        novoPilotoDiv.dataset.index = index; // Mantemos o índice para remoção do array se necessário
 
+        // Usar a mesma estrutura de form-group para consistência
         novoPilotoDiv.innerHTML = `
-            <h4>Piloto Adicional ${index + 1}</h4>
-            <div>
-                <label for="tipoCadastroPiloto${index}">Tipo de Cadastro:</label>
+            <button type="button" class="btnRemoverPiloto"><i class="fas fa-times-circle"></i> Remover</button>
+            <h4><i class="fas fa-user-plus"></i> Piloto Adicional ${index + 1}</h4>
+            <div class="form-group">
+                <label for="tipoCadastroPiloto${index}"><i class="fas fa-id-badge"></i> Tipo de Cadastro:</label>
                 <select id="tipoCadastroPiloto${index}" name="tipoCadastroPiloto${index}">
                     <option value="completo" ${piloto.tipoCadastro === 'completo' ? 'selected' : ''}>Completo (receberá e-mail)</option>
                     <option value="familiar" ${piloto.tipoCadastro === 'familiar' ? 'selected' : ''}>Familiar (sem e-mail)</option>
                 </select>
             </div>
-            <div>
-                <label for="nomePiloto${index}">Nome:</label>
-                <input type="text" id="nomePiloto${index}" name="nomePiloto${index}" value="${piloto.nome || ''}" required>
+            <div class="form-group">
+                <label for="nomePiloto${index}"><i class="fas fa-user"></i> Nome:</label>
+                <input type="text" id="nomePiloto${index}" name="nomePiloto${index}" value="${piloto.nome || ''}" placeholder="Nome do piloto adicional" required>
             </div>
-            <div class="email-piloto-adicional" style="${piloto.tipoCadastro === 'familiar' ? 'display:none;' : ''}">
-                <label for="emailPiloto${index}">E-mail:</label>
-                <input type="email" id="emailPiloto${index}" name="emailPiloto${index}" value="${piloto.email || ''}">
+            <div class="form-group email-piloto-adicional" style="${piloto.tipoCadastro === 'familiar' ? 'display:none;' : ''}">
+                <label for="emailPiloto${index}"><i class="fas fa-envelope"></i> E-mail:</label>
+                <input type="email" id="emailPiloto${index}" name="emailPiloto${index}" value="${piloto.email || ''}" placeholder="email@exemplo.com">
             </div>
-            <div class="parentesco-piloto-adicional" style="${piloto.tipoCadastro !== 'familiar' ? 'display:none;' : ''}">
-                <label for="parentescoPiloto${index}">Parentesco (Ex: Filho, Esposa):</label>
-                <input type="text" id="parentescoPiloto${index}" name="parentescoPiloto${index}" value="${piloto.parentesco || ''}">
+            <div class="form-group parentesco-piloto-adicional" style="${piloto.tipoCadastro !== 'familiar' ? 'display:none;' : ''}">
+                <label for="parentescoPiloto${index}"><i class="fas fa-users"></i> Parentesco (Ex: Filho, Esposa):</label>
+                <input type="text" id="parentescoPiloto${index}" name="parentescoPiloto${index}" value="${piloto.parentesco || ''}" placeholder="Ex: Filho, Amigo">
             </div>
-            <button type="button" class="btnRemoverPiloto">Remover Piloto</button>
-            <hr>
         `;
 
         listaPilotosAdicionaisDiv.appendChild(novoPilotoDiv);
@@ -111,45 +112,64 @@ document.addEventListener('DOMContentLoaded', function() {
                 emailInputPiloto.required = true;
             }
         });
-        // Trigger change para garantir o estado correto inicial se houver dados pré-carregados
         selectTipoCadastro.dispatchEvent(new Event('change'));
 
 
         novoPilotoDiv.querySelector('.btnRemoverPiloto').addEventListener('click', function() {
-            const divToRemove = this.closest('.piloto-adicional-item');
-            const idxToRemove = parseInt(divToRemove.dataset.index, 10);
-            pilotosAdicionais.splice(idxToRemove, 1); // Remove do array
-            divToRemove.remove(); // Remove do DOM
-            // Re-renderizar ou re-indexar se necessário, ou simplesmente garantir que a coleta de dados ignore os removidos.
-            // Para simplificar, a coleta de dados vai iterar sobre os elementos existentes no DOM.
-            console.log("Piloto adicional removido, atualizando dados:", pilotosAdicionais);
+            // Encontrar o índice real do elemento no array pilotosAdicionais
+            // Esta parte pode ser complexa se os índices do DOM e do array divergirem muito após remoções.
+            // Uma forma mais simples é reconstruir o array a partir do DOM ao submeter.
+            // Por agora, vamos apenas remover do DOM. A coleta de dados já itera sobre o DOM.
+            novoPilotoDiv.remove();
+            // Se precisarmos manter o array `pilotosAdicionais` sincronizado aqui,
+            // seria necessário um ID único por piloto ou uma reindexação mais cuidadosa.
+            console.log("Piloto adicional removido do DOM.");
         });
     }
 
-    function renderizarPilotoAdicional(piloto, index) {
+    function renderizarPilotoAdicional(piloto, index) { // Usado para carregar do localStorage
         adicionarNovoFormularioPiloto(piloto, index);
     }
 
-
+    // Atualiza a função de coleta para usar os nomes corretos dos campos e estrutura
     function coletarDadosPilotosAdicionais() {
         const pilotosColetados = [];
         const formsPilotos = listaPilotosAdicionaisDiv.querySelectorAll('.piloto-adicional-item');
-        formsPilotos.forEach((formPiloto, i) => {
-            const tipoCadastro = formPiloto.querySelector(`select[name="tipoCadastroPiloto${i}"]`).value;
-            const nome = formPiloto.querySelector(`input[name="nomePiloto${i}"]`).value.trim();
+
+        // Iterar sobre os elementos do DOM que ainda existem
+        formsPilotos.forEach((formPiloto, domIndex) => {
+            // Usar o índice do loop (domIndex) para construir os seletores,
+            // pois os IDs originais podem ter sido removidos.
+            // Os IDs no HTML são gerados com o `index` original, que pode não ser sequencial após remoções.
+            // Para simplificar, vamos assumir que os IDs são únicos e ainda correspondem à estrutura.
+            // Uma abordagem mais robusta usaria classes e `querySelector` dentro de `formPiloto`.
+            const currentFormIndex = formPiloto.dataset.index; // Pega o índice original com o qual o form foi criado
+
+            const tipoCadastroEl = formPiloto.querySelector(`select[id="tipoCadastroPiloto${currentFormIndex}"]`);
+            const nomeEl = formPiloto.querySelector(`input[id="nomePiloto${currentFormIndex}"]`);
+            const emailEl = formPiloto.querySelector(`input[id="emailPiloto${currentFormIndex}"]`);
+            const parentescoEl = formPiloto.querySelector(`input[id="parentescoPiloto${currentFormIndex}"]`);
+
+            if(!tipoCadastroEl || !nomeEl) { // Checagem básica de integridade do form
+                console.warn("Formulário de piloto adicional incompleto ou corrompido, pulando.", formPiloto);
+                return;
+            }
+
+            const tipoCadastro = tipoCadastroEl.value;
+            const nome = nomeEl.value.trim();
             let email = '';
             let parentesco = '';
 
             if (tipoCadastro === 'completo') {
-                email = formPiloto.querySelector(`input[name="emailPiloto${i}"]`).value.trim();
-                if (!nome || !email) { // Validação básica
-                    alert(`Por favor, preencha nome e e-mail para o Piloto Adicional ${i + 1}.`);
+                email = emailEl ? emailEl.value.trim() : '';
+                if (!nome || !email) {
+                    alert(`Por favor, preencha nome e e-mail para o Piloto Adicional (item ${domIndex + 1}).`);
                     throw new Error("Dados incompletos para piloto adicional.");
                 }
             } else { // familiar
-                parentesco = formPiloto.querySelector(`input[name="parentescoPiloto${i}"]`).value.trim();
-                if (!nome) { // Nome ainda é obrigatório para familiar
-                    alert(`Por favor, preencha o nome para o Piloto Adicional ${i + 1} (Familiar).`);
+                parentesco = parentescoEl ? parentescoEl.value.trim() : '';
+                if (!nome) {
+                    alert(`Por favor, preencha o nome para o Piloto Adicional (item ${domIndex + 1}) (Familiar).`);
                     throw new Error("Nome incompleto para piloto adicional familiar.");
                 }
             }
@@ -164,6 +184,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return pilotosColetados;
     }
 
+    btnAnteriorPagina03.addEventListener('click', function() {
+        window.location.href = 'pagina02.html';
+    });
 
     formPagina03.addEventListener('submit', function(event) {
         event.preventDefault();
